@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="azb" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تۆرکجه یازېلار</title>
+    <style>
+        /* */
+        :root {
+            --bg-primary-light: #f5f7fb;
+            --bg-secondary-light: #ffffff;
+            --text-primary-light: #1e293b;
+            --text-secondary-light: #64748b;
+            --accent-light: #0d9488; /* Premium Teal */
+            --accent-hover-light: #0f766e;
+            --card-shadow-light: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --border-light: #e2e8f0;
+
+            --bg-primary-dark: #0f172a;
+            --bg-secondary-dark: #1e293b;
+            --text-primary-dark: #f8fafc;
+            --text-secondary-dark: #94a3b8;
+            --accent-dark: #14b8a6;
+            --accent-hover-dark: #2dd4bf;
+            --card-shadow-dark: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            --border-dark: #334155;
+
+            /* Standard Active Palette */
+            --bg-primary: var(--bg-primary-light);
+            --bg-secondary: var(--bg-secondary-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --accent: var(--accent-light);
+            --accent-hover: var(--accent-hover-light);
+            --card-shadow: var(--card-shadow-light);
+            --border: var(--border-light);
+
+            --transition-speed: 0.3s;
+        }
+
+        .dark-mode {
+            --bg-primary: var(--bg-primary-dark);
+            --bg-secondary: var(--bg-secondary-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --accent: var(--accent-dark);
+            --accent-hover: var(--accent-hover-dark);
+            --card-shadow: var(--card-shadow-dark);
+            --border: var(--border-dark);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, Tahoma, "Vazirmatn", sans-serif;
+            transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.04) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(20, 184, 166, 0.04) 0%, transparent 50%);
+            animation: bgDrift 20s ease-wrap infinite alternate;
+        }
+
+        @keyframes bgDrift {
+            0% { transform: scale(1) translate(0px, 0px); }
+            100% { transform: scale(1.1) translate(20px, -20px); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--accent), #2dd4bf);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-action {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.6rem 1rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .btn-action:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-action svg {
+            width: 1.1rem;
+            height: 1.1rem;
+            stroke-width: 2.5;
+        }
+
+        /* Modern Theme Toggle Button Sizing and Styling */
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.6rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        /* Main Content Container Grid */
+        .main-wrapper {
+            padding: 2.5rem 0 5rem 0;
+            flex-grow: 1;
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        /* */
+        /* Sidebar layout containing inner search tool & index controls */
+        .sidebar {
+            position: sticky;
+            top: 6.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .sidebar-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        /* In-text Search Input Box */
+        .inner-search-container {
+            position: relative;
+            background: var(--bg-primary);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0.15rem;
+        }
+
+        .inner-search-container:focus-within {
+            border-color: var(--accent);
+        }
+
+        .inner-search-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .inner-search-clear {
+            background: none;
+            border: none;
+            padding: 0.4rem;
+            margin-left: 0.35rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inner-search-clear:hover {
+            background-color: var(--border);
+            color: var(--text-primary);
+        }
+
+        .search-results-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            display: none;
+        }
+
+        /* Share Button */
+        .share-button {
+            width: 100%;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        /* */
+        /* Main Article Column & Typography */
+        .article-content-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Article Breadcrumb and Category badge */
+        .article-meta-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-category {
+            background: rgba(13, 148, 136, 0.08);
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.35rem 1rem;
+            border-radius: 2rem;
+        }
+
+        .dark-mode .badge-category {
+            background: rgba(20, 184, 166, 0.15);
+        }
+
+        .article-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .article-main-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Dynamic Statistics Layout Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 0.85rem;
+            padding: 1rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-lbl {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* Article Prose Styles */
+        .article-body {
+            font-size: 1.15rem;
+            line-height: 1.95;
+            color: var(--text-primary);
+            text-align: justify;
+        }
+
+        /* Styled sub-elements within article */
+        .article-body h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1.25rem 0;
+            color: var(--text-primary);
+            border-right: 4px solid var(--accent);
+            padding-right: 0.75rem;
+        }
+
+        .article-body p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-body blockquote {
+            background: var(--bg-primary);
+            border-right: 4px solid var(--accent);
+            padding: 1.25rem 1.75rem;
+            margin: 2rem 0;
+            border-radius: 0.5rem 0 0 0.5rem;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* Highlighter Custom Highlight Marks */
+        mark.highlight {
+            background-color: rgba(20, 184, 166, 0.3);
+            color: inherit;
+            border-bottom: 2px solid var(--accent);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .dark-mode mark.highlight {
+            background-color: rgba(20, 184, 166, 0.45);
+        }
+
+        /* Clipboard Toast Message notification styling */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent);
+            color: #ffffff;
+            padding: 0.75rem 1.75rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(13, 148, 136, 0.3);
+            z-index: 100;
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .itemize {
+            margin-right: 2.0rem;
+        }
+
+        /* Responsive Mobile Layout adjustments */
+        @media (max-width: 992px) {
+            .article-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .article-content-card {
+                padding: 1.5rem;
+            }
+            .article-main-title {
+                font-size: 1.75rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Top Navigation Bar -->
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                        <path d="M6 6h10M6 10h10"/>
+                    </svg>
+                </div>
+            </a>
+            <div class="nav-controls">
+                <a href="index.html" class="btn-action">
+                    <!-- RTL pointing back arrow (pointing right) -->
+                    <span>باش صفحه‌یه قایېتماق</span>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6m0 0l-6 6m6-6H3" />
+                    </svg>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="تئمی دڲیشدیرمک">
+                    <svg id="moonIcon" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sunIcon" viewBox="0 0 24 24" style="display: none;">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- -->
+    <!-- Main Content Layout Section -->
+    <main class="main-wrapper">
+        <div class="container">
+            <div class="article-grid">
+                
+                <!-- Sticky Sidebar (Search inside page tool) -->
+                <aside class="sidebar">
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <span>یازې ایچینده آختارېنېز</span>
+                        </h3>
+                        <div class="inner-search-container">
+                            <input type="text" id="innerSearchInput" class="inner-search-input" placeholder="آچار سؤزجۆک..." aria-label="یازې ایچینده آختارېنېز">
+                            <button id="innerSearchClear" class="inner-search-clear" aria-label="سیلمک">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="searchResultsInfo" class="search-results-info">داا تاپیلدی: ۰</div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                                <polyline points="16 6 12 2 8 6"></polyline>
+                                <line x1="12" y1="2" x2="12" y2="15"></line>
+                            </svg>
+                            <span>بۇ صفحه‌نی پایلاشېنېز</span>
+                        </h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5;">یازېنېن لینکینی بۇ دۆگمه ایله گؤتۆرۆپ، باشقالارا گؤندره‌بیلرسینیز.</p>
+                        <button id="btnShare" class="btn-action share-button">
+                            <span>لینکی گؤتۆر</span>
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Article Core Column -->
+                <article class="article-content-card">
+                    <!-- Meta info header -->
+                    <div class="article-meta-header">
+                        <!-- CHANGE THIS CATEGORY VALUE FOR YOUR NEW ARTICLES -->
+                        <span class="badge-category" id="categoryBadge">چئوره بیلیمی</span>
+                        <!-- CHANGE THIS DATE VALUE FOR YOUR NEW ARTICLES -->
+                        <span class="article-date">یایېملانماق تاریخی: ۱۴۰۵/۰۳/۰۷</span>
+                    </div>
+
+                    <!-- Article Title -->
+                    <!-- CHANGE THIS TITLE FOR YOUR NEW ARTICLES -->
+                    <h1 class="article-main-title" id="articleMainTitle">قارا تۏپراق نه دیر؟ نه‌دن سۏن ایللرده خبرلرده آدې چۏخ گئچیر؟</h1>
+
+                    <!-- Dynamic Computed Statistics Container (Filled automatically by script) -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-val" id="statCharacters">-</span>
+                            <span class="stat-lbl">حرف سایېسې</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-val" id="statWords">-</span>
+                            <span class="stat-lbl">سؤزجۆک سایېسې</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-val" id="statSentences">-</span>
+                            <span class="stat-lbl">جمله سایېسې</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-val" id="statReadTime">-</span>
+                            <span class="stat-lbl">اۏخۇماق زمانې</span>
+                        </div>
+                    </div>
+
+                    <!-- -->
+                    <!-- Article Body Area (Paste your raw/bare HTML below) -->
+                    <div class="article-body" id="articleBody">
+                        <p>
+                            سۏن ایللرده خبر باشلېقلارېنې ایزلرسه‌نیز، «قارا تۏپراق» عنوانېنا اۇغرارسېنېز اۏق. بۇ اصطلاح، یالنېز اکینچیلیک اصطلاحې دڲیل ده گۆنۆمۆزۆن سیاست، اقتصاد و چئوره بیلیمینده استراتژیک و اؤنملی بیر قۏنۇیا چئوریلمیش دیر. ایندی بۇ قارا تۏپراق نه دیر و نه‌یه سۏن وقتلرده هامېنې اؤزۆنه چکمیش دیر؟
+                        </p>
+
+                        <blockquote>
+                            خبر باشلېغې: «یئمک و هاوا امنیّتی اۆچۆن قارا تۏپراقلارا حُکم سۆرمک»
+                        </blockquote>
+
+                        <h2>بیلیم ساحه‌سینده Chernozem آدې ایله تانېنان قارا تۏپراق نه دیر؟</h2>
+                        <p>
+                            بیلیم ساحه‌سینده بۇ تۏپراغا Chernozem دئییلر. بۇ اصطلاح اسلاو دیللری کؤکنلی دیر و بیزیم ایشلتدیڲیمیز «قارا تۏپراق» ایله عینی معنیده دیر. بۇ تۏپراق دۆنیانېن ان حاصللې، ان زنگین و البته ان باهالې تۏپراغې سایېلېر. بۇ تۏپراغې باشقا تۏپراقلاردان آیېران اساس خصوصیتلر بۇنلار دېر:
+                            <ul class="itemize">
+                                <li><b>هوموس (Humus) زنگینلیڲی:</b> مینلرجه ایل ایچینده اۏتلارېن و بیتکیلرین چۆرۆمڲیندن یارانان بۇ تۏپراق حددن آرتېق اؤلچۆده اورگانیک ماده‌لره و هوموسا صاحب دیر. قارا بۏیاسې دا بو زنگینلیکلر اۆچۆن دۆر.</li>
+                                <li><b>سۇ ساخلاماق گۆجۆ:</b> بۇ تۏپراغېن اسفنج شکلی وار دېر و سۇیۇ اؤزۆنده ساخلایار و قۇرۇلۇق زمانېندا بیتکینی سۇسۇز قۏیماز.</li>
+                                <li><b>طبیعی اۏلاراق گۆبره‌لی اۏلماغې:</b> بۇ تۏپراق بیرر ایسه شیمیایی گۆبره‌یه گرکسیزین دۆنیانېن ان یۆکسک محصولۇنۇ وئره‌بیلر.</li>
+                            </ul>
+                            دۆنیادا بۇ تۏپراغېن بؤیۆک بیر حصّه‌سی ایکی شمالی قۇرشاقدا یئرلشیر: بیری اوکراین، روسیه و قازاقېستان خطی، اۏبیری ایسه شمالی آمریکا (آمریکا و کانادا)
+                        </p>
+
+                        <h2>نه‌دن سۏن ایللرده خبرلرده آدې چۏخ گئچیر؟</h2>
+                        <p>
+                            قارا تۏپراغېن بیردن بیره دۆنیا گۆندمینه گلمڲینین نئچه اساس سببی وار دېر.
+                            <ul class="itemize">
+                                <li><b>اوکراین ساواشې و ارزاق بحرانې:</b> اوکراین دۆنیانېن ان گئنیش قارا تۏپراق ساحه‌لرینه مالک دیر (تخمینا اؤلکه‌نین تۏپراغېنېن ۷۰%). بۇ اؤلکه محض بۇ تۏپراقلار واسطه‌سییله آوروپانېن چؤرک قایناغې آدلانمېش. ۲۰۲۲-جی ایلدن بۇ اله دوام ائدن روسیه-اوکراین ساواشې، بۇ حاصللې تۏپراقلارېن اکیلمڲینی و محصولۇنۇن دۆنیایا چاتدېرېلماغېنې چتینلشدیردی. بۇ دا دۆنیا سویّه‌سینده بۇغدا، اۇن و یاغ قیمتلرینین باهالاشماغېنا سبب اۏلدۇ و قارا تۏپراغېن اؤنمینی بیر داها دۆنیایا خاطرلادې.</li>
+                                <li><b>إقلیم دڲیشیکلیکلری و قۇراقلېق:</b> یئر اۆزرینده هاوانېن ایستیلشمڲی اکینچیلیک اراضیسینی تهدید ائدیر. سۇ قایناقلارې آزالدېقجا، قارا تۏپراق کیمی سۇیۇ اؤزۆنده ساخلایابیلن اراضیلرین دڲری یئیینلیکله آرتېر. دۆنیا اهالیسی چۏخالېر و بۇ اهالینی دۏیۇرتماق اۆچۆن بۇ تۏپراقلارا هاچاندان ایسه داها آرتېق احتیاج وار دېر.</li>
+                                <li><b>تۏپراق اۏغۇرلۇغۇ و قاچاقچېلېغې:</b> بیلمڲی جالب دیر، قارا تۏپراغېن دڲرینین چۏخالماغې اۆچۆن اۏنۇن قاچاقچېلېغېنا گؤره خبرلر اۏخۇماق عادی بیر مسئله‌یه بدل اۏلمۇش دۇر. بۇ حاصللې تۏپراق بعضا اۏغۇرلانېپ، یۆک ماشینلارې واسطه‌سییله باشقا اؤلکه‌لر یا شخصی باغلارا داشېنېلېر.</li>
+                                <li><b>تۏپراغېن ضعیفلشمڲی:</b> مدیریّتسیز اکینچیلیک و شیمیایی گۆبره‌لرین حددن آرتېق ایشلنمڲی، دۆنیاداکې قارا تۏپراقلارېن کیفیّتینی آزالتماقدا دېر. چئوره بیلیمی اۆزره چالېشانلار دۆنیانې، بۇ تۏپراقلارېن قۏرۇنماماغې تقدیرده گله‌جک نسللرین آجلېغېنا گؤره، اخطار ائتمیش دیرلر.</li>
+                            </ul>
+                        </p>
+                        
+                        <h2>نتیجه</h2>
+                        <p>قارا تۏپراق یالنېز بیر اکین ساحه‌سی دڲیل دیر. اۏ دۆنیانېن ارزاق تهلکه‌سیزلیڲینین اساسلارېندان بیری دیر. سۏن ایللرده باش وئرن ساواشلار و إقلیم دڲیشیکلیکلری، گلجکده گۆجلۆ اؤلکه‌لرین سلاح یۏخسا نفتین صاحبلری اۏلمادېغېنې ثابت ائتدی. گلجڲین گۆجلۆ اؤلکه‌لری اؤز اهالیسینی دۏیۇردابیلن و قارا تۏپراغې اۏلۇپ اۏنۇ قۏرۇیابیلن اؤلکه‌لر اۏلاجاقلار.</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Global Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-text">
+                <p class="footer-brand">تۆرکجه یازېلار مخزنی</p>
+                <p>بۇ صقحه‌ده‌کی یازېلار GPL-3.0 لایسئنسی ایله یایېملانمېشلار.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Copy Link Notification Toast Box -->
+    <div id="toastNotification" class="toast">یازېنېن لینکی گؤتۆرۆلدۆ!</div>
+
+    <!-- -->
+    <!-- Scripts for Theme, Statistics Engine & HTML-Safe Word Highlight -->
+    <script>
+        // DOM Elements
+        const articleBody = document.getElementById("articleBody");
+        const innerSearchInput = document.getElementById("innerSearchInput");
+        const innerSearchClear = document.getElementById("innerSearchClear");
+        const searchResultsInfo = document.getElementById("searchResultsInfo");
+        const btnShare = document.getElementById("btnShare");
+        const toastNotification = document.getElementById("toastNotification");
+
+        // Keep Backup of the Original Clean HTML to prevent destruction of elements when doing real-time highlight replacements
+        let originalHTML = articleBody.innerHTML;
+
+        // --- SECTION 1: Automatic Statistics Engine ---
+        function calculateStatistics() {
+            // Get plain clean text content representing what is inside the article
+            const plainText = articleBody.innerText || articleBody.textContent;
+            
+            // 1. Characters count
+            const charCount = plainText.length;
+            document.getElementById("statCharacters").textContent = formatNumber(charCount);
+
+            // 2. Words count (filter out spaces and boundary empty items)
+            const wordsArray = plainText.trim().split(/\s+/).filter(word => word.length > 0);
+            const wordCount = wordsArray.length;
+            document.getElementById("statWords").textContent = formatNumber(wordCount);
+
+            // 3. Sentences count (Looks for standard Persian/Arabic & Latin punctuation ends: . ! ? ؟ )
+            const sentencesArray = plainText.split(/[.!?؟]+/).filter(sentence => sentence.trim().length > 0);
+            const sentenceCount = sentencesArray.length || 1;
+            document.getElementById("statSentences").textContent = formatNumber(sentenceCount);
+
+            // 4. Reading time (Estimated based on an average silent reading speed of ~130 Azerbaijani/Arabic script words/min)
+            const minutesRequired = Math.max(1, Math.ceil(wordCount / 130));
+            document.getElementById("statReadTime").textContent = `${minutesRequired} د`;
+        }
+
+        // Helper function for Eastern Arabic numerals formatting
+        function formatNumber(num) {
+            const systemLoc = 'fa'; // Force Arabic script numeric formatting
+            return num.toLocaleString(systemLoc);
+        }
+
+        // --- SECTION 2: HTML-Safe Highlight Engine ---
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function applyHighlight(query) {
+            // Restore clean original HTML to erase previous highlights
+            articleBody.innerHTML = originalHTML;
+            
+            if (!query) {
+                searchResultsInfo.style.display = "none";
+                return;
+            }
+
+            // Create global, case-insensitive Regex
+            const escapedQuery = escapeRegExp(query);
+            const regex = new RegExp(`(${escapedQuery})`, 'gi');
+            
+            let matchCount = 0;
+
+            // DOM traversal walker (Safely modifies ONLY text nodes, avoiding HTML tag corruption)
+            function walkTextNodes(node) {
+                if (node.nodeType === 3) { // Node is a direct Text node
+                    const text = node.nodeValue;
+                    if (text.match(regex)) {
+                        // Count occurrences safely
+                        const occurrences = (text.match(regex) || []).length;
+                        matchCount += occurrences;
+
+                        const span = document.createElement('span');
+                        span.innerHTML = text.replace(regex, '<mark class="highlight">$1</mark>');
+                        node.parentNode.replaceChild(span, node);
+                    }
+                } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'TEXTAREA'].includes(node.tagName)) {
+                    // Dive deeper recursively, ignoring code or styling blocks
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        walkTextNodes(node.childNodes[i]);
+                    }
+                }
+            }
+
+            walkTextNodes(articleBody);
+
+            // Update search information
+            searchResultsInfo.style.display = "block";
+            searchResultsInfo.textContent = `تاپېلان سؤزجۆک سایېسې: ${formatNumber(matchCount)}`;
+        }
+
+        // In-page search input listeners
+        innerSearchInput.addEventListener("input", (e) => {
+            const query = e.target.value.trim();
+            if (query.length > 0) {
+                innerSearchClear.style.display = "flex";
+            } else {
+                innerSearchClear.style.display = "none";
+            }
+            applyHighlight(query);
+        });
+
+        innerSearchClear.addEventListener("click", () => {
+            innerSearchInput.value = "";
+            innerSearchClear.style.display = "none";
+            applyHighlight("");
+            innerSearchInput.focus();
+        });
+
+        // --- SECTION 3: Sharing Controller ---
+        btnShare.addEventListener("click", () => {
+            const dummyInput = document.createElement("input");
+            dummyInput.value = window.location.href;
+            document.body.appendChild(dummyInput);
+            dummyInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummyInput);
+
+            // Show Toast notice
+            toastNotification.classList.add("show");
+            setTimeout(() => {
+                toastNotification.classList.remove("show");
+            }, 2500);
+        });
+
+        // --- SECTION 4: Theme Sync System ---
+        const themeToggleBtn = document.getElementById("themeToggle");
+        const sunIcon = document.getElementById("sunIcon");
+        const moonIcon = document.getElementById("moonIcon");
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            
+            if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add("dark-mode");
+                sunIcon.style.display = "block";
+                moonIcon.style.display = "none";
+            } else {
+                document.documentElement.classList.remove("dark-mode");
+                sunIcon.style.display = "none";
+                moonIcon.style.display = "block";
+            }
+        }
+
+        themeToggleBtn.addEventListener("click", () => {
+            const isDarkMode = document.documentElement.classList.contains("dark-mode");
+            if (isDarkMode) {
+                document.documentElement.classList.remove("dark-mode");
+                localStorage.setItem("theme", "light");
+                sunIcon.style.display = "none";
+                moonIcon.style.display = "block";
+            } else {
+                document.documentElement.classList.add("dark-mode");
+                localStorage.setItem("theme", "dark");
+                sunIcon.style.display = "block";
+                moonIcon.style.display = "none";
+            }
+        });
+
+        // Initializer
+        window.addEventListener("DOMContentLoaded", () => {
+            initTheme();
+            calculateStatistics();
+        });
+    </script>
+</body>
+</html>
