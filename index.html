@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="azb" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تۆرکجه یازېلار</title>
+    <style>
+        /* Modern CSS Reset & Variable Definitions */
+        :root {
+            --bg-primary-light: #f5f7fb;
+            --bg-secondary-light: #ffffff;
+            --text-primary-light: #1e293b;
+            --text-secondary-light: #64748b;
+            --accent-light: #0d9488; /* Premium Teal */
+            --accent-hover-light: #0f766e;
+            --card-shadow-light: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --border-light: #e2e8f0;
+
+            --bg-primary-dark: #0f172a;
+            --bg-secondary-dark: #1e293b;
+            --text-primary-dark: #f8fafc;
+            --text-secondary-dark: #94a3b8;
+            --accent-dark: #14b8a6;
+            --accent-hover-dark: #2dd4bf;
+            --card-shadow-dark: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            --border-dark: #334155;
+
+            /* Default Theme Setup (Light mode fallback, overridden by class) */
+            --bg-primary: var(--bg-primary-light);
+            --bg-secondary: var(--bg-secondary-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --accent: var(--accent-light);
+            --accent-hover: var(--accent-hover-light);
+            --card-shadow: var(--card-shadow-light);
+            --border: var(--border-light);
+
+            --transition-speed: 0.3s;
+        }
+
+        .dark-mode {
+            --bg-primary: var(--bg-primary-dark);
+            --bg-secondary: var(--bg-secondary-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --accent: var(--accent-dark);
+            --accent-hover: var(--accent-hover-dark);
+            --card-shadow: var(--card-shadow-dark);
+            --border: var(--border-dark);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, Tahoma, "Vazirmatn", sans-serif;
+            transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Subtle Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.04) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(20, 184, 166, 0.04) 0%, transparent 50%);
+            animation: bgDrift 20s ease-wrap infinite alternate;
+        }
+
+        @keyframes bgDrift {
+            0% {
+                transform: scale(1) translate(0px, 0px);
+            }
+            100% {
+                transform: scale(1.1) translate(20px, -20px);
+            }
+        }
+
+        /* Container Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--accent), #2dd4bf);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Modern Theme Toggle Button */
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.6rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        /* Hero / Search Section */
+        .hero {
+            padding: 4rem 0 2.5rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.7;
+        }
+
+        /* Beautiful Floating Search Box */
+        .search-container {
+            max-width: 640px;
+            margin: 0 auto;
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: 1.25rem;
+            padding: 0.35rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+        }
+
+        .search-icon {
+            padding: 0 1rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon svg {
+            width: 1.4rem;
+            height: 1.4rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .search-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 0.75rem 0.5rem;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .search-clear {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-clear:hover {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        /* Filter Keywords (Tags) Section */
+        .tags-filter-container {
+            max-width: 800px;
+            margin: 1.5rem auto 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .filter-tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .filter-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .filter-tag.active {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.2);
+        }
+
+        /* Main Content Grid */
+        .main-content {
+            padding: 2rem 0 5rem 0;
+            flex-grow: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.9rem;
+            right: 0;
+            width: 3rem;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .results-count {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Grid of Article Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Modern Premium Card Styling */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1), 0 10px 15px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark-mode .card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.4), 0 10px 10px -5px rgba(0,0,0,0.3);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-category {
+            background: rgba(13, 148, 136, 0.08);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+        }
+
+        .dark-mode .card-category {
+            background: rgba(20, 184, 166, 0.15);
+        }
+
+        .card-date {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .card-abstract {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.75rem;
+            flex-grow: 1;
+            /* Multi-line clamp for abstracts */
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 1.25rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .card-link:hover {
+            color: var(--accent-hover);
+        }
+
+        .card-link svg {
+            width: 1.1rem;
+            height: 1.1rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            transition: transform 0.2s;
+        }
+
+        .card-link:hover svg {
+            transform: translateX(-4px); /* Moves left since layout is RTL */
+        }
+
+        .card-reading-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .card-reading-time svg {
+            width: 1rem;
+            height: 1rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .empty-state svg {
+            width: 4rem;
+            height: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            stroke-width: 1.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-brand {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Mobile Adjustments (Responsive CSS) */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .navbar {
+                height: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Top Navigation Bar -->
+    <header>
+        <div class="container navbar">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                        <path d="M6 6h10M6 10h10"/>
+                    </svg>
+                </div>
+                <span class="logo-text">باش صفحه</span>
+            </a>
+            <button class="theme-toggle" id="themeToggle" aria-label="تئمی دڲیشدیرمک">
+                <!-- Moon Icon (Shows when Light Mode is active) -->
+                <svg id="moonIcon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <!-- Sun Icon (Shows when Dark Mode is active) -->
+                <svg id="sunIcon" viewBox="0 0 24 24" style="display: none;">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Header / Title & Search Tool -->
+    <section class="hero">
+        <div class="container">
+            <h1>آذربایجان تۆرکجه‌سینده یازېلار</h1>
+            <p>ایسته‌دیڲینیز قۏنۇ یا سؤزجۆڲۆ آشاغېدا یازېپ، اۏنۇ، سۇنۇلان مقاله‌لرین و یازېلارین عنوانې و خلاصه‌سینده آختارېنېز.</p>
+            
+            <!-- Real-time Interactive Search Bar -->
+            <div class="search-container">
+                <span class="search-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </span>
+                <input type="text" id="searchInput" class="search-input" placeholder="آچار سؤز، قۏنۇ و یا یازې آدېنې آختارېنېز..." aria-label="آختارېش">
+                <button id="searchClear" class="search-clear" aria-label="سیلمک">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Dynamic Fast Keywords (Tags) for Filtering -->
+            <div class="tags-filter-container" id="tagsContainer">
+                <!-- Tags will be rendered dynamically by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Section / List of Classified Cards -->
+    <main class="main-content">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-title" id="sectionTitle">بۆتۆن یازېلار</span>
+                <span class="results-count" id="resultsCount">تاپېلېپ...</span>
+            </div>
+
+            <!-- Card Grid Layout -->
+            <div class="cards-grid" id="cardsGrid">
+                <!-- Cards will be populated dynamically from JS array -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Global Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-text">
+                <p class="footer-brand">تۆرکجه یازېلار مخزنی</p>
+                <p>بۇ صقحه‌ده‌کی یازېلار GPL-3.0 لایسئنسی ایله یایېملانمېشلار.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vanilla Javascript Logic -->
+    <script>
+        // Initial Classified Article Dataset (Written in South Azerbaijani - Arabic script)
+        // You can gradually add new cards directly to this Javascript array!
+        const articles = [
+            {
+                id: 1,
+                title: "قارا تۏپراق نه دیر؟ نه‌دن سۏن ایللرده خبرلرده آدې چۏخ گئچیر؟",
+                abstract: "سۏن ایللرده خبر باشلېقلارېنې ایزلرسه‌نیز، «قارا تۏپراق» عنوانېنا اۇغرارسېنېز اۏق. بۇ اصطلاح، یالنېز اکینچیلیک اصطلاحې دڲیل ده گۆنۆمۆزۆن سیاست، اقتصاد و چئوره بیلیمینده استراتژیک و اؤنملی بیر قۏنۇیا چئوریلمیش دیر. ایندی بۇ قارا تۏپراق نه دیر و نه‌یه سۏن وقتلرده هامېنې اؤزۆنه چکمیش دیر؟",
+                category: "چئوره بیلیمی",
+                tags: ["اقتصاد", "سیاست", "چئوره"],
+                date: "۱۴۰۵/۰۳/۰۷",
+                readTime: "۵ دقیقه",
+                link: "14050307.html"
+            }
+        ];
+
+        // Core App State
+        let searchQuery = "";
+        let activeTag = "all";
+
+        // DOM Element Cache
+        const cardsGrid = document.getElementById("cardsGrid");
+        const searchInput = document.getElementById("searchInput");
+        const searchClear = document.getElementById("searchClear");
+        const tagsContainer = document.getElementById("tagsContainer");
+        const resultsCount = document.getElementById("resultsCount");
+        const sectionTitle = document.getElementById("sectionTitle");
+        const themeToggleBtn = document.getElementById("themeToggle");
+        const sunIcon = document.getElementById("sunIcon");
+        const moonIcon = document.getElementById("moonIcon");
+
+        function la2ar(latin) {
+            const digitDict = {
+                "0":"۰", "1":"۱", "2":"۲", "3":"۳", "4":"۴", 
+                "5":"۵", "6":"۶", "7":"۷", "8":"۸", "9":"۹", 
+            };
+            let ar = "";
+            for (let i = 0; i < latin.length; i++) {
+                ar += digitDict[latin[i]] || latin[i];
+            }
+            return ar;
+        }
+
+        // Theme Toggle Logic
+        function initTheme() {
+            const savedTheme = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            
+            if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add("dark-mode");
+                sunIcon.style.display = "block";
+                moonIcon.style.display = "none";
+            } else {
+                document.documentElement.classList.remove("dark-mode");
+                sunIcon.style.display = "none";
+                moonIcon.style.display = "block";
+            }
+        }
+
+        themeToggleBtn.addEventListener("click", () => {
+            const isDarkMode = document.documentElement.classList.contains("dark-mode");
+            if (isDarkMode) {
+                document.documentElement.classList.remove("dark-mode");
+                localStorage.setItem("theme", "light");
+                sunIcon.style.display = "none";
+                moonIcon.style.display = "block";
+            } else {
+                document.documentElement.classList.add("dark-mode");
+                localStorage.setItem("theme", "dark");
+                sunIcon.style.display = "block";
+                moonIcon.style.display = "none";
+            }
+        });
+
+        // Initialize Dynamic Tags / Keywords
+        function getUniqueTags() {
+            const allTags = [];
+            articles.forEach(article => {
+                allTags.push(...article.tags);
+            });
+            // Get unique tags and limit to popular tags
+            return ["all", ...new Set(allTags)];
+        }
+
+        function renderTags() {
+            const uniqueTags = getUniqueTags();
+            tagsContainer.innerHTML = "";
+            
+            uniqueTags.forEach(tag => {
+                const tagElement = document.createElement("button");
+                tagElement.className = `filter-tag ${tag === activeTag ? 'active' : ''}`;
+                tagElement.textContent = tag === "all" ? "هامېسې" : `# ${tag}`;
+                
+                tagElement.addEventListener("click", () => {
+                    activeTag = tag;
+                    renderTags();
+                    renderArticles();
+                });
+                tagsContainer.appendChild(tagElement);
+            });
+        }
+
+        // Search Handlers
+        searchInput.addEventListener("input", (e) => {
+            searchQuery = e.target.value.trim().toLowerCase();
+            if (searchQuery.length > 0) {
+                searchClear.style.display = "flex";
+            } else {
+                searchClear.style.display = "none";
+            }
+            renderArticles();
+        });
+
+        searchClear.addEventListener("click", () => {
+            searchInput.value = "";
+            searchQuery = "";
+            searchClear.style.display = "none";
+            renderArticles();
+            searchInput.focus();
+        });
+
+        // Main Render Function for Articles (Cards Grid)
+        function renderArticles() {
+            // Filter algorithm (Checks against Title, Abstract, Category, and Tags)
+            const filteredArticles = articles.filter(article => {
+                const matchesSearch = 
+                    article.title.toLowerCase().includes(searchQuery) ||
+                    article.abstract.toLowerCase().includes(searchQuery) ||
+                    article.category.toLowerCase().includes(searchQuery) ||
+                    article.tags.some(tag => tag.toLowerCase().includes(searchQuery));
+                
+                const matchesTag = activeTag === "all" || article.tags.includes(activeTag);
+                
+                return matchesSearch && matchesTag;
+            });
+
+            // Update Header Counts & Text
+            if (activeTag === "all" && searchQuery === "") {
+                sectionTitle.textContent = "بۆتۆن یازېلار";
+            } else if (activeTag !== "all" && searchQuery === "") {
+                sectionTitle.textContent = `«${activeTag}» بؤلۆمۆنده‌کی یازېلار`;
+            } else {
+                sectionTitle.textContent = "آختارېش نتیجه‌لری";
+            }
+            
+            resultsCount.textContent = `تاپېلان یازې سایېسې: ${la2ar(`${filteredArticles.length}`)} داا`;
+
+            // Render Cards to DOM
+            cardsGrid.innerHTML = "";
+            
+            if (filteredArticles.length === 0) {
+                cardsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <h3>تأسفله بیرر ایسه یازې تاپېلمادې!</h3>
+                        <p>یئنیدن آختارېنېز، یۏخ ایسه باشقا آچار سؤزلری سېنایېنېز.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredArticles.forEach(article => {
+                const card = document.createElement("article");
+                card.className = "card";
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="card-category">${article.category}</span>
+                            <span class="card-date">${article.date}</span>
+                        </div>
+                        <h2 class="card-title">${article.title}</h2>
+                        <p class="card-abstract">${article.abstract}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="${article.link}" class="card-link">
+                            <span>اۏخۇ</span>
+                            <svg viewBox="0 0 24 24">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                        </a>
+                        <span class="card-reading-time">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>${article.readTime}</span>
+                        </span>
+                    </div>
+                `;
+                cardsGrid.appendChild(card);
+            });
+        }
+
+        // On Load Initializations
+        window.addEventListener("DOMContentLoaded", () => {
+            initTheme();
+            renderTags();
+            renderArticles();
+        });
+    </script>
+</body>
+</html>
