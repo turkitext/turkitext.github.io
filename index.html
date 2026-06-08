@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تۆرکجه یازېلار</title>
+    
+    <!-- EARLY EXECUTION THEME SCRIPT: Runs instantly to prevent the light-mode flash -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            
+            if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add("dark-mode");
+            } else {
+                document.documentElement.classList.remove("dark-mode");
+            }
+        })();
+    </script>
+
     <style>
         /* Modern CSS Reset & Variable Definitions */
         :root {
@@ -698,17 +713,13 @@
             return ar;
         }
 
-        // Theme Toggle Logic
+        // Theme Toggle Icon sync (Class setting already resolved instantly in <head>)
         function initTheme() {
-            const savedTheme = localStorage.getItem("theme");
-            const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-            
-            if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-                document.documentElement.classList.add("dark-mode");
+            const isDarkMode = document.documentElement.classList.contains("dark-mode");
+            if (isDarkMode) {
                 sunIcon.style.display = "block";
                 moonIcon.style.display = "none";
             } else {
-                document.documentElement.classList.remove("dark-mode");
                 sunIcon.style.display = "none";
                 moonIcon.style.display = "block";
             }
