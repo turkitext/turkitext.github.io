@@ -31,7 +31,7 @@ const articles = [
         readTime: "۴ دقیقه",
         link: "14050309.html"
     },
-{
+    {
         id: 4,
         title: "تبریزدن تبریزه و آذربایجاندان سیبرییه",
         abstract: "سیبرینین اۏیان-بۇیانېنې گزرکن، قارلې چؤللری و سۏنسۇز مئشه‌لری باغرېندا، تانېش بیر آد ایله قارشېلاشابیله‌ریک. بۇ آد بیر لحظه‌ده إنسانې مینلرجه کیلومتر اۇزاقلېغا، آذربایجان مدنیّتینین مرکزی، تبریزه آپارېر. روسیه‌نین اۏمسک اۏبلاستېنېن تارا بؤلگه‌سینده یئرلشن تَوریز کندی، یالنېز بیر یاشام مرکزی دڲیل دیر، کؤچلرین، تجارتین، حسرتین و تاریخه گؤمۆلن اۇزاق کؤکلرین جانلې بیر شاهدی دیر.",
@@ -40,6 +40,16 @@ const articles = [
         date: "۱۴۰۵/۰۴/۰۷",
         readTime: "۳ دقیقه",
         link: "14050407.html"
+    },
+    {
+        id: 5,
+        title: "اسرارنامه | تبریزلی احمدی",
+        abstract: "بۇ اثر یالنېز و یالنېز ادبی دڲری اۆچۆن حاضرلانمېش دېر و ایچینده اۏلان، البته آز دا اۏلمایان، شریعته قارشې سؤزلر، حاضرلایان طرفیندن اصلا و ابدا تایید اۏلۇنمایېر. بۇ مسئله ذاتا نیشابورلۇ عطار اثرلریندن آلېنمېش بۇ اثره منحصر دڲیل دیر و عرفان آدلانان حماقت شرک و وهن ایله دۏلۇ دۇر.",
+        category: "ادبیات",
+        tags: ["ادبیات", "کیملیک", "دیل"],
+        date: "۱۴۰۵/۰۴/۳۱",
+        readTime: "۱۷۹ دقیقه",
+        link: "14050431.html"
     }
 ];
 
@@ -57,6 +67,12 @@ const sectionTitle = document.getElementById("sectionTitle");
 const themeToggleBtn = document.getElementById("themeToggle");
 const sunIcon = document.getElementById("sunIcon");
 const moonIcon = document.getElementById("moonIcon");
+const btnToggleOrthography = document.getElementById("btnToggleOrthography");
+const orthographyLabel = document.getElementById("orthographyLabel");
+
+// Orthography state (synced with article pages via same localStorage key)
+let currentOrthographyActive = localStorage.getItem("orthography_mode") === "custom";
+const textNodesCache = [];
 
 function la2ar(latin) {
     const digitDict = {
@@ -69,6 +85,53 @@ function la2ar(latin) {
     }
     return ar;
 }
+
+// --- Orthography Engine (Same logic as article pages) ---
+function mapText(text) {
+    if (!currentOrthographyActive) return text;
+    return text.replace(/ې/g, "ؽ").replace(/ۏ/g, "و۟");
+}
+
+function indexGlobalTextNodes() {
+    textNodesCache.length = 0;
+    function walk(node) {
+        if (node === btnToggleOrthography) return;
+        if (node.nodeType === 3) {
+            if (node.nodeValue.trim().length > 0) {
+                textNodesCache.push({ node: node, original: node.nodeValue });
+            }
+        } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'TEXTAREA'].includes(node.tagName)) {
+            for (let i = 0; i < node.childNodes.length; i++) {
+                walk(node.childNodes[i]);
+            }
+        }
+    }
+    walk(document.body);
+}
+
+function applyGlobalOrthography() {
+    textNodesCache.forEach(item => {
+        item.node.nodeValue = mapText(item.original);
+    });
+    renderArticles();
+}
+
+function updateOrthographyButtonUI() {
+    if (currentOrthographyActive) {
+        orthographyLabel.textContent = "ؽ";
+        btnToggleOrthography.classList.add("active");
+    } else {
+        orthographyLabel.textContent = "ې";
+        btnToggleOrthography.classList.remove("active");
+    }
+}
+
+btnToggleOrthography.addEventListener("click", () => {
+    currentOrthographyActive = !currentOrthographyActive;
+    localStorage.setItem("orthography_mode", currentOrthographyActive ? "custom" : "standard");
+    updateOrthographyButtonUI();
+    applyGlobalOrthography();
+});
 
 // Theme Toggle Icon sync (Class setting already resolved instantly in <head>)
 function initTheme() {
@@ -114,7 +177,7 @@ function renderTags() {
     uniqueTags.forEach(tag => {
         const tagElement = document.createElement("button");
         tagElement.className = `filter-tag ${tag === activeTag ? 'active' : ''}`;
-        tagElement.textContent = tag === "all" ? "هامېسې" : `# ${tag}`;
+        tagElement.textContent = tag === "all" ? mapText("هامېسې") : `# ${mapText(tag)}`;
         
         tagElement.addEventListener("click", () => {
             activeTag = tag;
@@ -161,14 +224,14 @@ function renderArticles() {
 
     // Update Header Counts & Text
     if (activeTag === "all" && searchQuery === "") {
-        sectionTitle.textContent = "بۆتۆن یازېلار";
+        sectionTitle.textContent = mapText("بۆتۆن یازېلار");
     } else if (activeTag !== "all" && searchQuery === "") {
-        sectionTitle.textContent = `«${activeTag}» بؤلۆمۆنده‌کی یازېلار`;
+        sectionTitle.textContent = mapText(`«${activeTag}» بؤلۆمۆنده‌کی یازېلار`);
     } else {
-        sectionTitle.textContent = "آختارېش نتیجه‌لری";
+        sectionTitle.textContent = mapText("آختارېش نتیجه‌لری");
     }
-    
-    resultsCount.textContent = `تاپېلان یازې سایېسې: ${la2ar(`${filteredArticles.length}`)} داا`;
+
+    resultsCount.textContent = mapText(`تاپېلان یازې سایېسې: ${la2ar(`${filteredArticles.length}`)} داا`);
 
     // Render Cards to DOM
     cardsGrid.innerHTML = "";
@@ -180,8 +243,8 @@ function renderArticles() {
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <h3>تأسفله بیرر ایسه یازې تاپېلمادې!</h3>
-                <p>یئنیدن آختارېنېز، یۏخ ایسه باشقا آچار سؤزلری سېنایېنېز.</p>
+                <h3>${mapText("تأسفله بیرر ایسه یازې تاپېلمادې!")}</h3>
+                <p>${mapText("یئنیدن آختارېنېز، یۏخ ایسه باشقا آچار سؤزلری سېنایېنېز.")}</p>
             </div>
         `;
         return;
@@ -193,15 +256,15 @@ function renderArticles() {
         card.innerHTML = `
             <div>
                 <div class="card-header">
-                    <span class="card-category">${article.category}</span>
+                    <span class="card-category">${mapText(article.category)}</span>
                     <span class="card-date">${article.date}</span>
                 </div>
-                <h2 class="card-title">${article.title}</h2>
-                <p class="card-abstract">${article.abstract}</p>
+                <h2 class="card-title">${mapText(article.title)}</h2>
+                <p class="card-abstract">${mapText(article.abstract)}</p>
             </div>
             <div class="card-footer">
                 <a href="${article.link}" class="card-link">
-                    <span>اۏخۇ</span>
+                    <span>${mapText("اۏخۇ")}</span>
                     <svg viewBox="0 0 24 24">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
@@ -212,7 +275,7 @@ function renderArticles() {
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
-                    <span>${article.readTime}</span>
+                    <span>${mapText(article.readTime)}</span>
                 </span>
             </div>
         `;
@@ -223,6 +286,8 @@ function renderArticles() {
 // On Load Initializations
 window.addEventListener("DOMContentLoaded", () => {
     initTheme();
+    indexGlobalTextNodes();
+    updateOrthographyButtonUI();
     renderTags();
-    renderArticles();
+    applyGlobalOrthography();
 });
