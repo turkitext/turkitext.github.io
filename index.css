@@ -165,6 +165,42 @@ header {
     stroke-width: 2;
 }
 
+/* Navbar Controls Container */
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Orthography Toggle Button */
+.btn-orthography {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 0.5rem 0.65rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--card-shadow);
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), transform 0.2s;
+}
+
+.btn-orthography:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.btn-orthography.active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
 /* Hero / Search Section */
 .hero {
     padding: 4rem 0 2.5rem 0;
