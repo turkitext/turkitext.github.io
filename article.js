@@ -144,7 +144,7 @@ innerSearchClear.addEventListener("click", () => {
 
 function updateToggleButtonUI() {
     if (currentOrthographyActive) {
-        btnToggleOrthography.querySelector("span").textContent = "املانې دڲیشدیر (ۏ/ې طرزی)";
+        btnToggleOrthography.querySelector("span").textContent = "املانؽ دڲیشدیر (ۏ/ې طرزی)";
     } else {
         btnToggleOrthography.querySelector("span").textContent = "املانې دڲیشدیر (و۟/ؽ طرزی)";
     }
